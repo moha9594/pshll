@@ -1,0 +1,187 @@
+#! /opt/microsoft/powershell/7/pwsh
+
+ ################################# FONCTIONS #################################  
+function play_marche_imperial 
+{
+	Start-Job {[console]::beep(440,500)
+		[console]::beep(440,500)
+		[console]::beep(440,500)
+		[console]::beep(349,350)
+		[console]::beep(523,150)
+		[console]::beep(440,500)
+		[console]::beep(349,350)
+		[console]::beep(523,150)
+		[console]::beep(440,1000)
+		[console]::beep(659,500)
+		[console]::beep(659,500)
+		[console]::beep(659,500)
+		[console]::beep(698,350)
+		[console]::beep(523,150)
+		[console]::beep(415,500)
+		[console]::beep(349,350)
+		[console]::beep(523,150)
+		[console]::beep(440,1000)}
+}
+
+function play_mission_impossible
+{
+	Start-Job {[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(932,150)
+		Start-Sleep -m 150
+		[console]::beep(1047,150)
+		Start-Sleep -m 150
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(699,150)
+		Start-Sleep -m 150
+		[console]::beep(740,150)
+		Start-Sleep -m 150
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(932,150)
+		Start-Sleep -m 150
+		[console]::beep(1047,150)
+		Start-Sleep -m 150
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(784,150)
+		Start-Sleep -m 300
+		[console]::beep(699,150)
+		Start-Sleep -m 150
+		[console]::beep(740,150)
+		Start-Sleep -m 150
+		[console]::beep(932,150)
+		[console]::beep(784,150)
+		[console]::beep(587,1200)
+		Start-Sleep -m 75
+		[console]::beep(932,150)
+		[console]::beep(784,150)
+		[console]::beep(554,1200)
+		Start-Sleep -m 75
+		[console]::beep(932,150)
+		[console]::beep(784,150)
+		[console]::beep(523,1200)
+		Start-Sleep -m 150
+		[console]::beep(466,150)
+		[console]::beep(523,150)}
+}
+
+## Fonction avec parametre
+function open_your_mouth
+{
+    Param(
+        [String]
+        $le_speech
+    )
+    Process
+    {
+        Add-Type -AssemblyName System.speech
+	    $speak = New-Object System.Speech.Synthesis.SpeechSynthesizer
+
+        If ([string]::IsNullOrEmpty($le_speech))
+        {
+            $le_speech="idiot"
+            echo "Il faut saisir une valeur dans le parametre!"
+            $speak.Speak($le_speech)
+            
+        }
+        ElseIf ($le_speech -eq "stop")
+        {
+            $speak.Speak("Au revoir!")
+		    Start-Sleep -m 75
+        }
+        Else
+        {
+            $speak.Speak($le_speech)
+        }
+
+    }
+}
+##############################################################################################
+
+##################################### Script #################################################
+## Demonstration Fonction
+clear
+Echo "****DEMONSTRATION DE FONCTION****"
+echo ""
+
+$loop=0
+
+While ($loop -ne 1)
+{
+	$choix= Read-Host "Que voulez-vous ecouter ?`n 1) la Marche Imperiale ou 2) Mission impossible"
+	if ($choix -eq '1')
+	{
+		play_marche_imperial 
+		$loop++
+	}
+
+	elseif ($choix -eq '2')
+	{
+		play_mission_impossible
+		$loop++
+	}
+
+	else
+	{       
+		echo "Erreur, saisissez '1' ou '2' "
+	}
+}
+
+## Demonstration Parametre
+echo ""
+echo ""
+Echo "****DEMONSTRATION DE PARAMETRE****"
+
+$loop=0
+
+
+While ($loop -ne 1)
+{
+    echo ""
+	$le_parametre= Read-Host "Que faire dire a la machine ? "
+
+	open_your_mouth($le_parametre)
+
+    if ($le_parametre -eq "stop")
+    {
+        $loop++
+    }
+
+    else
+    {
+        $choix_continuer=0
+        while ($choix_continuer -ne 1)
+        {
+            $continuer=Read-Host "Voulez vous continuer ?`n 1) oui	2)non"
+
+            if ($continuer -eq '2')
+            {    
+                $loop++
+                $choix_continuer++
+            }
+
+            elseif ($continuer -ne '1')
+            {
+                echo ""
+                echo ""
+                echo "Erreur, saisissez '1' ou '2'"                
+            }
+            else
+            {
+                $choix_continuer++
+            }
+        }
+    }
+
+}
+    
+
+##############################################################################################
